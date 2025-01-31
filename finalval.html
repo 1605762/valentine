@@ -145,7 +145,7 @@
 
 		.buttons {
 			display: flex;
-			gap: 4rem;  /* Increased from 2rem for better separation */
+			gap: 8rem; /* Much larger gap - 8rem instead of 2rem */
 			margin-top: 2rem;
 			justify-content: center;
 		}
@@ -159,7 +159,8 @@
 			position: relative;
 			overflow: hidden;
 			z-index: 1;
-			min-width: 150px;  /* Added to ensure minimum button width */
+			min-width: 150px;
+			touch-action: manipulation; /* Prevents default touch behaviors */
 		}
 		.btn-yes {
 			background: linear-gradient(45deg, #ff1493, #ff69b4);
@@ -171,6 +172,12 @@
 			background: linear-gradient(45deg, #ff69b4, #ffb6c1);
 			color: white;
 			box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+		}
+
+		/* Add padding around each button to increase hit area separation */
+		.btn-yes, .btn-no {
+			margin: 1rem;
+			pointer-events: auto; /* Ensures clicks are captured correctly */
 		}
 
         @keyframes pulse {
