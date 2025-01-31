@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #ffecf2, #ffe4e1);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 105, 180, 0.1);
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .photo-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+			grid-template-rows: repeat(3, 1fr);
+            gap: 1rem;
+            padding: 1rem;
+            opacity: 0.6;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            animation: fadeInOut 8s infinite;
+            opacity: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            animation: floatUpAndRotate 4s linear infinite;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .hearts-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes floatUpAndRotate {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            25%, 75% { opacity: 0.6; }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff1493, 0 0 20px #ff1493;
+            }
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff1493, 0 0 40px #ff1493;
+            }
+        }
+
+        h1 {
+            color: #ff1493;
+            font-size: 4rem;
+            margin-bottom: 0rem;
+			line-height: 1;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .message {
+            font-size: 2rem;
+            color: #ff69b4;
+            margin: 0.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+			text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+            animation: fadeIn 1s ease-out forwards 0.5s;
+        }
+
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1.5rem 3rem;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .btn-no {
+            background: linear-gradient(45deg, #ff69b4, #ffb6c1);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-background"></div>
+    <div class="photo-background" id="photoBackground"></div>
+    <div class="container">
+	<div class="message">
+            Dear Emma
+        <h1>Will you be my Valentine?&#128151;</h1>
+       
+        </div>
+        
+        <div class="buttons">
+            <button class="btn btn-yes" onclick="sayYes()">Yes!</button>
+            <button class="btn btn-no" onmouseover="moveButton(this)" style="position: relative;">No</button>
+        </div>
+    </div>
+
+    <div class="music-control" onclick="toggleMusic()" id="musicControl">Play</div>
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.discordapp.com/attachments/900279888479678504/1334766701790892072/opmavXFHRTE.mp3?ex=679db9dc&is=679c685c&hm=0f73ed24d105ab077a13a566c5672554a0bd24904a2f1cf7f4397d3412e8da4a&" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Music control
+        let isPlaying = false;
+        const music = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicControl.textContent = 'Play';
+            } else {
+                music.play();
+                musicControl.textContent = 'Pause';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function createHeartBackground() {
+            const container = document.querySelector('.hearts-background');
+            const colors = ['#ff1493', '#ff69b4', '#ffb6c1'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '&#10084;';
+                heart.className = 'floating-heart';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                container.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }, 300);
+        }
+
+        function createPhotoBackground() {
+            const container = document.getElementById('photoBackground');
+            const photoUrls = [
+                'https://cdn.discordapp.com/attachments/900279888479678504/1334753707417407499/20241221_140511.jpg?ex=679dadc2&is=679c5c42&hm=f71169c98a1ab1df93411f384fb0504b7a9acfa86e0c1e95239e90f57efb6b83&',
+                'https://cdn.discordapp.com/attachments/900279888479678504/1334753708008935425/20241221_123315.jpg?ex=679dadc2&is=679c5c42&hm=723c20f2458c51416a4c5fa1861d466916fd345662d9d4515f5d7bb8a8af5ba8&',
+                'https://cdn.discordapp.com/attachments/900279888479678504/1334753708495605771/20250103_155039.jpg?ex=679dadc2&is=679c5c42&hm=c1cb1bb6cce8db0ce990f36ad6b25fb9af8370b3e02555119d5fcd69f9ca191d&',
+                'https://cdn.discordapp.com/attachments/900279888479678504/1334753709103775845/20250111_111845.jpg?ex=679dadc2&is=679c5c42&hm=9e678669186c0f5323552fed94b45f74de600255a12c3c8bafe54768cde82ab9&',
+                'https://cdn.discordapp.com/attachments/900279888479678504/1334753709636456498/Snapchat-2028974237.jpg?ex=679dadc2&is=679c5c42&hm=bea31c0fbf12019a02a735be01030bfc2be487597af5a8127760dbf6409fcdb3&',
+				'https://cdn.discordapp.com/attachments/900279888479678504/1334754885224108113/2025.jpg?ex=679daedb&is=679c5d5b&hm=c0ee8aaf635a3fde2050c79d2dfbc0a06f8256494486cc1bcfca9015718c7365&'
+            ];
+
+            photoUrls.forEach((url, index) => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.className = 'background-image';
+                img.style.animationDelay = `${index * 0.5}s`;
+                container.appendChild(img);
+            });
+        }
+
+        // Fixed moveButton function
+function moveButton(button) {
+    const moveAmount = 50; // Maximum pixels to move in any direction
+
+    // Get the current position of the button
+    const buttonRect = button.getBoundingClientRect();
+    let newX = buttonRect.left + (Math.random() * (moveAmount * 2) - moveAmount);
+    let newY = buttonRect.top + (Math.random() * (moveAmount * 2) - moveAmount);
+
+    // Ensure the button stays within viewport boundaries
+    const maxX = window.innerWidth - button.offsetWidth - 10;
+    const maxY = window.innerHeight - button.offsetHeight - 10;
+
+    newX = Math.max(0, Math.min(newX, maxX));
+    newY = Math.max(0, Math.min(newY, maxY));
+
+    button.style.position = 'fixed';
+    button.style.left = `${newX}px`;
+    button.style.top = `${newY}px`;
+    button.style.transform = `rotate(${Math.random() * 20 - 10}deg)`; // Small rotation change
+}
+
+
+
+
+        function sayYes() {
+            document.querySelector('.message').innerHTML = "YAYYYYY&#128513;<br>I LOVE YOUUUU&#10084;&#10084;";
+            document.querySelector('.buttons').style.display = 'none';
+			toggleMusic();
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.innerHTML = '&#128150;';
+                heart.style.position = 'fixed';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '100vh';
+                heart.style.animation = 'floatUpAndRotate 4s linear';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 4000);
+            }, 100);
+        }
+
+        // Initialize everything
+        window.onload = function() {
+            createHeartBackground();
+            createPhotoBackground();
+        };
+    </script>
+</body>
+</html>
