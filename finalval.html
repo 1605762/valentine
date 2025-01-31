@@ -143,37 +143,35 @@
             }
         }
 
-        .buttons {
-            display: flex;
-            gap: 2rem;
-            margin-top: 2rem;
-            justify-content: center;
-        }
-
-        .btn {
-            padding: 1.5rem 3rem;
-            font-size: 1.5rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .btn-yes {
-            background: linear-gradient(45deg, #ff1493, #ff69b4);
-            color: white;
-            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
-            animation: pulse 2s infinite;
-        }
-
-        .btn-no {
-            background: linear-gradient(45deg, #ff69b4, #ffb6c1);
-            color: white;
-            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
-        }
+		.buttons {
+			display: flex;
+			gap: 4rem;  /* Increased from 2rem for better separation */
+			margin-top: 2rem;
+			justify-content: center;
+		}
+		.btn {
+			padding: 1.5rem 3rem;
+			font-size: 1.5rem;
+			border: none;
+			border-radius: 50px;
+			cursor: pointer;
+			transition: all 0.3s;
+			position: relative;
+			overflow: hidden;
+			z-index: 1;
+			min-width: 150px;  /* Added to ensure minimum button width */
+		}
+		.btn-yes {
+			background: linear-gradient(45deg, #ff1493, #ff69b4);
+			color: white;
+			box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+			animation: pulse 2s infinite;
+		}
+		.btn-no {
+			background: linear-gradient(45deg, #ff69b4, #ffb6c1);
+			color: white;
+			box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+		}
 
         @keyframes pulse {
             0% { transform: scale(1); }
